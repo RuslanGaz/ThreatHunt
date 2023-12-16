@@ -168,10 +168,10 @@ Now take a look at objects that are in your workspace using ls().
 List all the files in your working directory using list.files() or dir().
 ```{r}
 > dir()
- [1] "Форензика– компьютерная  криминалистика.pdf"
- [2] "76561199231997673.zip"                                                       
- [3] "9tjagjsk.exe"                                                                
- [4] "Adobe"
+ [1] "Chrome.exe"
+ [2] "RuslanPr5.zip"                                                       
+ [3] "VSCode.exe"                                                                
+ [4] "bos.pdf"
  ...
 ```
 As we go through this lesson, you should be examining the help page for each new function. Check out the help page for list.files with the command
