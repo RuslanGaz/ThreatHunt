@@ -321,6 +321,7 @@ What happens if we do 15:1? Give it a try to find out.
 > my_seq <- seq(5,10,length=30)
 ```
 | To confirm that my_seq has length 30, we can use the length() function. Try it now.
+```{r}
 > length(my_seq)
 [1] 30
 ```
