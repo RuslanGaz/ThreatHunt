@@ -513,29 +513,29 @@ What happens if we do 15:1? Give it a try to find out.
 ## To add (or 'concatenate') your name to the end of my_char, use the c() function like this: c(my_char, "your_name_here"). Place your name in double quotes
 | where I've put "your_name_here". Try it now, storing the result in a new variable called my_name.
 ```{r}
-> c(my_char, "Georgiy")
-[1] "My"      "name"    "is"      "Georgiy"
+> c(my_char, "Ruslan")
+[1] "My"      "name"    "is"      "Ruslan"
 ```
 | Not quite! Try again. Or, type info() for more options.
 
 | Tack your name on to the end of the my_char vector using the c() function.  Be sure to assign the result to a new variable called my_name. If your name was
 | "Swirl", you would type my_name <- c(my_char, "Swirl").
 ```{r}
-> my_name <- c(my_char, "Georgiy")
+> my_name <- c(my_char, "Ruslan")
 ```
 | Keep up the great work!
 
 | Take a look at the contents of my_name.
 ```{r}
 > my_name
-[1] "My"      "name"    "is"      "Georgiy"
+[1] "My"      "name"    "is"      "Ruslan"
 ```
 | You are quite good my friend!
 
 | Now, use the paste() function once more to join the words in my_name together into a single character string. Don't forget to say collapse = " "!
 ```{r}
 > paste(my_name, collapse = " ")
-[1] "My name is Georgiy"
+[1] "My name is Ruslan"
 ```
 | You nailed it! Good job!
 
