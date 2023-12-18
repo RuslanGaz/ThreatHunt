@@ -37,8 +37,9 @@ library('dplyr')
 
 ``` {r}
 starwars %>% nrow()
-    [1] 87
 ```
+[1] 87
+
 
 ### Ответ: 87
 
@@ -48,8 +49,9 @@ starwars %>% nrow()
 
 ``` {r}
 starwars %>% ncol()
-    [1] 14
 ```
+[1] 14
+
 
 ### Ответ: 14
 
@@ -59,6 +61,7 @@ starwars %>% ncol()
 
 ``` {r}
 glimpse(starwars)
+```
     Rows: 87
     Columns: 14
     $ name       <chr> "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "Leia Or…
@@ -75,7 +78,7 @@ glimpse(starwars)
     $ films      <list> <"The Empire Strikes Back", "Revenge of the Sith", "Return…
     $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imp…
     $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1",…
-```
+
 
 ## Задание 4
 
@@ -83,8 +86,9 @@ glimpse(starwars)
 
 ``` {r}
 starwars %>% group_by(species) %>% summarize('species' = n()) %>% nrow()
-    [1] 38
 ```
+[1] 38
+
 
 ### Ответ: 38
 
@@ -95,8 +99,9 @@ starwars %>% group_by(species) %>% summarize('species' = n()) %>% nrow()
 ``` {r}
 h <- filter(starwars, height != 'NA')
 max(h$height)
-    [1] 264
 ```
+[1] 264
+
 
 ### Ответ: 264
 
@@ -107,9 +112,10 @@ max(h$height)
 ``` {r}
 h<-filter(starwars, height < 170)
 h$height
-     [1] 167  96 150 165  97  66 150  88 160 137 112 163  94 122 163 157 166 165 168
-    [20] 167  79  96 165
 ```
+[1] 167  96 150 165  97  66 150  88 160 137 112 163  94 122 163 157 166 165 168
+    [20] 167  79  96 165
+
 ### Ответ: Кол-во 23
 
 ## Задание 7
@@ -119,7 +125,7 @@ h$height
 ``` {r}
 h <- filter(starwars, name != 'NA', height != 'NA', mass != 'NA')
 data.frame (a$name,a$mass*(a$height^2))
-
+```
                       a.name a.mass....a.height.2.
     1         Luke Skywalker               2277968
     2                  C-3PO               2091675
@@ -180,7 +186,7 @@ data.frame (a$name,a$mass*(a$height^2))
     57             Sly Moore               1520832
     58            Tion Medon               3394880
     59         Padmé Amidala               1225125
-```
+
 
 ## Задание 8
 
@@ -191,7 +197,8 @@ a <- filter(starwars, name != 'NA', height != 'NA', mass != 'NA')
 b <- data.frame(a$name, a$mass/a$height)
 c <- arrange(b, desc(a$mass/a$height))
 top_n(c,10)
-    Selecting by a.mass.a.height
+```
+Selecting by a.mass.a.height
 
                       a.name a.mass.a.height
     1  Jabba Desilijic Tiure       7.7600000
@@ -204,7 +211,7 @@ top_n(c,10)
     8                Tarfful       0.5811966
     9        Dexter Jettster       0.5151515
     10             Chewbacca       0.4912281
-```
+
 
 ## Задание 9
 
@@ -215,7 +222,7 @@ a <- filter(starwars, species != 'NA', birth_year != 'NA')
 b <- select(a, species, birth_year)
 c <- group_by(b, species)
 summarise(c, avg_age = mean(birth_year, na.rm = TRUE))
-
+```
 
     # A tibble: 15 × 2
        species        avg_age
@@ -235,7 +242,7 @@ summarise(c, avg_age = mean(birth_year, na.rm = TRUE))
     13 Wookiee          200  
     14 Yoda's species   896  
     15 Zabrak            54  
-```
+
 
 ## Задание 10
 
@@ -246,13 +253,14 @@ a <- filter(starwars, eye_color != 'NA')
 b <- group_by(a, eye_color)
 c <- count(b, eye_color)
 d <- arrange(c, desc(n))
-> d[0:1,]
-# A tibble: 1 × 2
+d[0:1,]
+```
+#A tibble: 1 × 2
 # Groups:   eye_color [1]
   eye_color     n
   <chr>     <int>
 1 brown        21
-```
+
 
 ### Ответ: brown
 
@@ -265,7 +273,7 @@ a <- filter(starwars, name != 'NA', species != 'NA')
 b <- select(a, name, species)
 c <- group_by(b, species)
 summarise(c, AvgLenName = mean(nchar(name)))
-
+```
 
     # A tibble: 37 × 2
        species   AvgLenName
@@ -282,7 +290,7 @@ summarise(c, AvgLenName = mean(nchar(name)))
     10 Gungan         11.7 
     # ℹ 27 more rows
 	# ℹ Use `print(n = ...)` to see more rows
-```
+
 ## Вывод
 
 Научились пользоваться функциями обработки различных табличных данных с помощью библиотеки dplyr
