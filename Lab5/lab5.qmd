@@ -63,7 +63,7 @@ dat2 <- dat2 %>% mutate_at(vars(Station.MAC, BSSID, Probed.ESSIDs), trimws) %>% 
 
 ``` {r}
 dat1 %>% glimpse()
-
+```
 
     Rows: 167
     Columns: 15
@@ -82,11 +82,11 @@ dat1 %>% glimpse()
     $ ID.length       <int> 12, 4, 2, 14, 25, 13, 12, 13, 24, 12, 10, 0, 24, 24, 1…
     $ ESSID           <chr> " C322U13 3965", " Cnet", " KC", " POCO X5 Pro 5G", " …
     $ Key             <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-```
+
 
 ``` {r}
 dat2 %>% glimpse()
-
+```
 
     Rows: 12,269
     Columns: 7
@@ -97,7 +97,7 @@ dat2 %>% glimpse()
     $ X..packets      <chr> "      858", "        4", "      432", "      958", " …
     $ BSSID           <chr> "BE:F1:71:D5:17:8B", "(not associated)", "BE:F1:71:D6:…
     $ Probed.ESSIDs   <chr> "C322U13 3965", "IT2 Wireless", "C322U21 0566", "C322U…
-```
+
 
 ## Анализ
 
