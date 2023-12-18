@@ -1,7 +1,6 @@
 # Лабораторная работа №4
 
 Газиков Р.А.
-
 ## Цель работы
 
 1.  Закрепить практические навыки использования языка программирования R
@@ -21,12 +20,13 @@
 
 ### Подготовка данных
 
-## Импортируйте данные DNS.
+1\. Импортируйте данные DNS.
 
 ``` {r}
 library(readr)
-    Warning: пакет 'readr' был собран под R версии 4.3.2
 ```
+
+    Warning: пакет 'readr' был собран под R версии 4.3.2
 
 ``` {r}
 header <- read.csv("C:/Study/header.csv")
@@ -34,7 +34,7 @@ header <- read.csv("C:/Study/header.csv")
 
 ``` {r}
 header
-
+```
                                                                                                     Field       Type                                                                                     Description
 1           ts       time                                                                    Timestamp of the DNS request 
 2          uid      string                                                                    Unique id of the connection 
@@ -57,7 +57,7 @@ header
 19     answers      vector                                           List of resource descriptions in answer to the query 
 20        TTLs      vector                                                               Caching intervals of the answers 
 21    rejected       bool                                                Whether the DNS query was rejected by the server  by the server 
-```
+
 
 Для чтения логов продублируем первую строку файла, чтобы она не терялась
 в названии столбцов.
@@ -67,6 +67,7 @@ dns <- read.csv('C:/Study/dns.log',sep ='\t')
 ```
 
 ``` {r}
+```
 dns %>% head(10)
        `1331901005.510000` CWGtK431H9XuaTN4fi `192.168.202.100` `45658`
                      <dbl> <chr>              <chr>               <dbl>
@@ -80,7 +81,7 @@ dns %>% head(10)
      8         1331901007. ClEZCt3GLkJdtGGmAa 192.168.202.89        137
      9         1331901008. ClEZCt3GLkJdtGGmAa 192.168.202.89        137
     10         1331901007. CpD4i41jyaYqmTBMH3 192.168.202.89        137
-```
+
 
 ## Задание 2
 
@@ -97,7 +98,7 @@ names(dns) <- c("ts", "uid", "id_or_h", "or_p", "id_re_h", "re_p","proto", "tran
 ### Наши данные уже и так в подходящем формате. Ниже описано два способа преобразование формата
 
 ``` {r}
-> transform(dns, ts = as.ts(ts)) #dns*t**s* \<  − *d**n**s*ts %\>%
+transform(dns, ts = as.ts(ts)) #dns*t**s* \<  − *d**n**s*ts %\>%
 as.ts()
 ```
 
@@ -143,27 +144,30 @@ glimpse(dns)
 
 ``` {r}
 select(dns,uid) %>% group_by(uid) %>% count() %>% nrow()
-    [1] 162495
 ```
+[1] 162495
+
 
 ## Задание 6
 
 ### Какое соотношение участников обмена внутри сети и участников обращений к внешним ресурсам?
 
 ``` {r}
-> a <- filter(dns, qtype_name == 'A'| qtype_name == 'AA' | qtype_name =='AAA' | qtype_name == 'AAAA') %>% group_by(uid) %>% count() %>% nrow() 
-> b <- filter(dns, qtype_name != 'A' & qtype_name !='AA' & qtype_name !='AAA' & qtype_name !='AAAA') %>% group_by(uid) %>% count() %>% nrow()
-> b/a
-    [1] 0.5084645
+a <- filter(dns, qtype_name == 'A'| qtype_name == 'AA' | qtype_name =='AAA' | qtype_name == 'AAAA') %>% group_by(uid) %>% count() %>% nrow() 
+b <- filter(dns, qtype_name != 'A' & qtype_name !='AA' & qtype_name !='AAA' & qtype_name !='AAAA') %>% group_by(uid) %>% count() %>% nrow()
+b/a
 ```
+[1] 0.5084645
+
 
 ## Задание 7
 
 ### Найдите топ-10 участников сети, проявляющих наибольшую сетевую активность.
 
 ``` {r}
-> select(dns,uid) %>% group_by(uid) %>% count() %>% arrange(desc(n)) %>% head(10)
-    # A tibble: 10 × 2
+select(dns,uid) %>% group_by(uid) %>% count() %>% arrange(desc(n)) %>% head(10)
+```
+# A tibble: 10 × 2
     # Groups:   uid [10]
        uid                    n
        <chr>              <int>
@@ -177,15 +181,16 @@ select(dns,uid) %>% group_by(uid) %>% count() %>% nrow()
      8 Cvfa4A2CK3vpoyJO9   4621
      9 CZ6P023bXFwrV0Waxj  2829
     10 Cq7OOsGzpAIeJK3x7   2318
-```
+
 
 ## Задание 8
 
 ### Найдите топ-10 доменов, к которым обращаются пользователи сети и соответственное количество обращений
 
 ``` {r}
-> dns %>% filter(query !='-', qtype_name == 'A'| qtype_name == 'AA' | qtype_name =='AAA' | qtype_name == 'AAAA') %>% select(query) %>% group_by(query) %>% count() %>% arrange(desc(n)) %>% head(10)
-    # A tibble: 10 × 2
+dns %>% filter(query !='-', qtype_name == 'A'| qtype_name == 'AA' | qtype_name =='AAA' | qtype_name == 'AAAA') %>% select(query) %>% group_by(query) %>% count() %>% arrange(desc(n)) %>% head(10)
+```
+# A tibble: 10 × 2
     # Groups:   query [10]
        query                               n
        <chr>                           <int>
@@ -199,17 +204,18 @@ select(dns,uid) %>% group_by(uid) %>% count() %>% nrow()
      8 ratings-wrs.symantec.com         4464
      9 api.twitter.com                  4348
     10 api.facebook.com                 4137
-```
+
 
 ## Задание 9
 
 ### Определите базовые статистические характеристики (функция summary()) интервала времени между последовательным обращениями к топ-10 доменам.
 
 ``` {r}
-> summary(diff((dns %>% filter(tolower(query) %in% mostpopdomains$query) %>% arrange(ts))$ts))
+summary(diff((dns %>% filter(tolower(query) %in% mostpopdomains$query) %>% arrange(ts))$ts))
+```
         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
         0.00     0.00     0.00     1.08     0.31 49924.53 
-```
+
 
 ## Задание 10
 
@@ -217,14 +223,16 @@ select(dns,uid) %>% group_by(uid) %>% count() %>% nrow()
 
 ``` {r}
 susp <- dns %>% group_by(id_or_h, query) %>% summarise(total = n()) %>% filter(total > 1)
-    `summarise()` has grouped output by 'id_or_h'. You can override using the
-    `.groups` argument.
 ```
+`summarise()` has grouped output by 'id_or_h'. You can override using the
+    `.groups` argument.
+
 
 ``` {r}
-> unique(susp$id_or_h)%>% head()
-[1] "10.10.10.10"     "10.10.117.209"   "10.10.117.210"   "128.244.37.196"  "169.254.109.123" "169.254.228.26"
+unique(susp$id_or_h)%>% head()
 ```
+[1] "10.10.10.10"     "10.10.117.209"   "10.10.117.210"   "128.244.37.196"  "169.254.109.123" "169.254.228.26"
+
 
 ## Задание 11
 
