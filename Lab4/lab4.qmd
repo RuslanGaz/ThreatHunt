@@ -75,8 +75,8 @@ dns <- read.csv('C:/Study/dns.log',sep ='\t')
 ```
 
 ``` {r}
-```
 dns %>% head(10)
+```
        `1331901005.510000` CWGtK431H9XuaTN4fi `192.168.202.100` `45658`
                      <dbl> <chr>              <chr>               <dbl>
      1         1331901015. C36a282Jljz7BsbGH  192.168.202.76        137
