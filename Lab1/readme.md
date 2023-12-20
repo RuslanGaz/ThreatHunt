@@ -177,9 +177,9 @@ List all the files in your working directory using list.files() or dir().
 ```{r}
 dir()
 ```
- [1] "Форензика– компьютерная  криминалистика.pdf"
- [2] "76561199231997673.zip"                                                       
- [3] "9tjagjsk.exe"                                                                
+ [1] "bos1.pdf"
+ [2] "NetDump.zip"                                                       
+ [3] "decryptor.exe"                                                                
  [4] "Adobe"
  ...
 
@@ -264,12 +264,14 @@ file.path("folder1","folder2")
 
 Create a directory in the current working directory called "testdir2" and a subdirectory for it called "testdir3", all in one command by using dir.create()
 | and file.path().
+```{r}
 dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
-
+```
 Go back to your original working directory using setwd(). (Recall that we created the variable old.dir with the full path for the orginal working directory
 | at the start of these questions.)
+```{r}
 setwd(old.dir)
-
+```
 
 Would you like to receive credit for completing this course on Coursera.org?
 
@@ -478,27 +480,27 @@ num_vect >= 6
 | just guess and you've got a 50% chance of getting the right answer!
 
 ...
-```{r}
+
 | (3>5) & (4 == 4)
-```
+
 1: FALSE
 2: TRUE
 
 Выбор:1
 
 | Keep up the great work!
-```{r}
+
 | (TRUE == TRUE) | (TRUE == FALSE)
-```
+
 1: TRUE
 2: FALSE
 
 Выбор:1
 
 | You are quite good my friend!
-```{r}
+
 | ((111 >= 111) | !(TRUE)) & ((4 + 1) == 5)
-```
+
 1: FALSE
 2: TRUE
 
