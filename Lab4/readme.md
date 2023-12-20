@@ -22,17 +22,17 @@
 
 1\. Импортируйте данные DNS.
 
-``` {r}
+```{r}
 library(readr)
 ```
 
     Warning: пакет 'readr' был собран под R версии 4.3.2
 
-``` {r}
+```{r}
 header <- read.csv("C:/Study/header.csv")
 ```
 
-``` {r}
+```{r}
 header
 ```
                                                                                                     Field       Type                                                                                     Description
@@ -62,13 +62,13 @@ header
 Для чтения логов продублируем первую строку файла, чтобы она не терялась
 в названии столбцов.
 
-``` {r}
+```{r}
 dns <- read.csv('C:/Study/dns.log',sep ='\t')
 ```
 
-``` {r}
-```
+```{r}
 dns %>% head(10)
+```
        `1331901005.510000` CWGtK431H9XuaTN4fi `192.168.202.100` `45658`
                      <dbl> <chr>              <chr>               <dbl>
      1         1331901015. C36a282Jljz7BsbGH  192.168.202.76        137
@@ -87,7 +87,7 @@ dns %>% head(10)
 
 ### Добавьте пропущенные данные о структуре данных (назначении столбцов)
 
-``` {r}
+```{r}
 names(dns) <- c("ts", "uid", "id_or_h", "or_p", "id_re_h", "re_p","proto", "trans_id","query","qclass", "qclass_name", "qtype", "qtype_name", "rcode","rcode_name", "AA", "TC","RD","RA","Z","answer","TTLs","rejected")
 ```
 
@@ -97,7 +97,7 @@ names(dns) <- c("ts", "uid", "id_or_h", "or_p", "id_re_h", "re_p","proto", "tran
 
 ### Наши данные уже и так в подходящем формате. Ниже описано два способа преобразование формата
 
-``` {r}
+```{r}
 transform(dns, ts = as.ts(ts)) #dns*t**s* \<  − *d**n**s*ts %\>%
 as.ts()
 ```
@@ -106,7 +106,7 @@ as.ts()
 
 ### Просмотрите общую структуру данных с помощью функции glimpse()
 
-``` {r}
+```{r}
 glimpse(dns)
 ```
 
@@ -142,7 +142,7 @@ glimpse(dns)
 
 ### Если речь идет о кол-ве всевозможных пользователей
 
-``` {r}
+```{r}
 select(dns,uid) %>% group_by(uid) %>% count() %>% nrow()
 ```
 [1] 162495
@@ -152,7 +152,7 @@ select(dns,uid) %>% group_by(uid) %>% count() %>% nrow()
 
 ### Какое соотношение участников обмена внутри сети и участников обращений к внешним ресурсам?
 
-``` {r}
+```{r}
 a <- filter(dns, qtype_name == 'A'| qtype_name == 'AA' | qtype_name =='AAA' | qtype_name == 'AAAA') %>% group_by(uid) %>% count() %>% nrow() 
 b <- filter(dns, qtype_name != 'A' & qtype_name !='AA' & qtype_name !='AAA' & qtype_name !='AAAA') %>% group_by(uid) %>% count() %>% nrow()
 b/a
@@ -164,7 +164,7 @@ b/a
 
 ### Найдите топ-10 участников сети, проявляющих наибольшую сетевую активность.
 
-``` {r}
+```{r}
 select(dns,uid) %>% group_by(uid) %>% count() %>% arrange(desc(n)) %>% head(10)
 ```
 # A tibble: 10 × 2
@@ -187,7 +187,7 @@ select(dns,uid) %>% group_by(uid) %>% count() %>% arrange(desc(n)) %>% head(10)
 
 ### Найдите топ-10 доменов, к которым обращаются пользователи сети и соответственное количество обращений
 
-``` {r}
+```{r}
 dns %>% filter(query !='-', qtype_name == 'A'| qtype_name == 'AA' | qtype_name =='AAA' | qtype_name == 'AAAA') %>% select(query) %>% group_by(query) %>% count() %>% arrange(desc(n)) %>% head(10)
 ```
 # A tibble: 10 × 2
@@ -210,7 +210,7 @@ dns %>% filter(query !='-', qtype_name == 'A'| qtype_name == 'AA' | qtype_name =
 
 ### Определите базовые статистические характеристики (функция summary()) интервала времени между последовательным обращениями к топ-10 доменам.
 
-``` {r}
+```{r}
 summary(diff((dns %>% filter(tolower(query) %in% mostpopdomains$query) %>% arrange(ts))$ts))
 ```
         Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
@@ -221,14 +221,14 @@ summary(diff((dns %>% filter(tolower(query) %in% mostpopdomains$query) %>% arran
 
 ### Часто вредоносное программное обеспечение использует DNS канал в качестве канала управления, периодически отправляя запросы на подконтрольный злоумышленникам DNS сервер. По периодическим запросам на один и тот же домен можно выявить скрытый DNS канал. Есть ли такие IP адреса в исследуемом датасете?
 
-``` {r}
+```{r}
 susp <- dns %>% group_by(id_or_h, query) %>% summarise(total = n()) %>% filter(total > 1)
 ```
 `summarise()` has grouped output by 'id_or_h'. You can override using the
     `.groups` argument.
 
 
-``` {r}
+```{r}
 unique(susp$id_or_h)%>% head()
 ```
 [1] "10.10.10.10"     "10.10.117.209"   "10.10.117.210"   "128.244.37.196"  "169.254.109.123" "169.254.228.26"
